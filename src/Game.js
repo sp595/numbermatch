@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useDetectTouch from "./Hook/Detect";
+import {
+  LightBulbIcon,
+  PlusIcon,
+  ArrowPathIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/solid";
+import { TrophyIcon } from "@heroicons/react/24/solid";
 
 const STATE = {
   NEW: "new",
@@ -30,7 +37,9 @@ const Game = ({ columns, rows }) => {
   const [grid, setGrid] = useState(generateGrid(4, columns, rows));
   const [score, setScore] = useState(0);
   const [phase, setPhase] = useState(1);
+  const [hintCount, setHintCount] = useState(3);
   const [isVictory, setIsVictory] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const [wrongSelection, setWrongSelection] = useState(false);
   const [selected, setSelected] = useState([]);
@@ -218,6 +227,7 @@ const Game = ({ columns, rows }) => {
   };
 
   const handleAddNumbers = () => {
+    checkGameOver();
     const newGrid = grid.filter((num) => num.state === STATE.NEW);
     let lastCellIndex = Math.max(...grid.map((cell) => cell.id)); // Find the highest existing ID
     let newCells = [];
@@ -240,6 +250,11 @@ const Game = ({ columns, rows }) => {
     // Verifica se nessun elemento nella griglia ha lo stato NEW
     const condition = !grid.some((cell) => cell.state === STATE.NEW);
     setIsVictory(condition);
+  };
+
+  const checkGameOver = () => {
+    setIsGameOver(phase == 5);
+    console.log("GAME OVER: ", isGameOver);
   };
 
   useEffect(() => {
@@ -299,42 +314,67 @@ const Game = ({ columns, rows }) => {
         </div>
       </div>
 
-      {isVictory && (
+      {(isVictory || isGameOver) && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-            <h2 className="text-2xl font-bold mb-4 text-center">Victory!</h2>
-            <p className="text-lg mb-2">
-              Score: <span id="victory-score">{score}</span>
-            </p>
-            <p className="text-lg mb-4">
-              Phases: <span id="victory-phase">{phase}</span>
-            </p>
-            <button
-              id="close-popup"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-auto block"
-              onClick={() => window.location.reload()}
-            >
-              Reset Game!
-            </button>
+            <div className="flex flex-col items-center">
+              {isVictory && (
+                <>
+                  <h2 className="text-2xl font-bold mb-4 text-center">
+                    Victory!
+                  </h2>
+                  <TrophyIcon className="animate-bounce text-yellow-500 w-24 h-24 mb-4" />
+                  <p className="text-lg mb-2">
+                    Score: <span id="victory-score">{score}</span>
+                  </p>
+                  <p className="text-lg mb-4">
+                    Phases: <span id="victory-phase">{phase}</span>
+                  </p>
+                </>
+              )}
+              {isGameOver && (
+                <>
+                  <h2 className="text-2xl font-bold mb-4 text-center">
+                    Game Over!
+                  </h2>
+                  <XCircleIcon className="animate-bounce text-red-500 w-24 h-24 mb-4" />
+                </>
+              )}
+              <button
+                id="close-popup"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => window.location.reload()}
+              >
+                New Game!
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4">
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-8">
         <button
-          className="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center"
+          className="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-blue-600"
           onClick={() => window.location.reload()}
         >
-          New
+          <ArrowPathIcon className="w-6 h-6" />
         </button>
         <button
-          className="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center"
+          className="relative w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-blue-600"
           onClick={handleAddNumbers}
         >
-          +
+          <PlusIcon className="w-6 h-6" />
+          <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
+            {5 - phase > 0 ? 5 - phase : 0}
+          </div>
         </button>
-        <button className="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center">
-          Hint!
+        <button className="relative w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-blue-600">
+          <LightBulbIcon className="w-6 h-6" />
+          {hintCount > 0 && (
+            <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
+              {hintCount}
+            </div>
+          )}
         </button>
       </div>
     </div>
