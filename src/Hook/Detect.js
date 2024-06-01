@@ -4,16 +4,12 @@ const useDetectTouch = () => {
   const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
-    const handleTouchStart = () => setIsTouch(true);
-    const handleMouseMove = () => setIsTouch(false);
+    const isMobileDevice = () => /Mobi|Android/i.test(navigator.userAgent);
+    //console.log("User Agent IsMobileCheck:", isMobileDevice());
 
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("mousemove", handleMouseMove);
+    setIsTouch(isMobileDevice());
 
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
+    return () => {};
   }, []);
 
   return isTouch;

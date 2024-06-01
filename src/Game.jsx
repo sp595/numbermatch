@@ -297,7 +297,7 @@ const Game = ({ columns, rows }) => {
                   minHeight: "40px",
                   maxHeight: "calc(40px / columns)",
                 }}
-                onTouch={() => isTouch && handleSelect(num?.id)}
+                onTouchStart={() => isTouch && handleSelect(num?.id)}
                 onClick={() => !isTouch && handleSelect(num?.id)}
               >
                 {num?.num ? num?.num : ""}
