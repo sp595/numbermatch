@@ -145,3 +145,23 @@ export const checkSumCore = (selected, grid) => {
   }
   return false;
 };
+
+export const calculateHints = (grid) => {
+  // get all grid NEW
+  const newGrid = grid.filter((cell) => cell.state === STATE.NEW);
+
+  // create all combination of two couple cells from newGrid with no duplicates
+  const combinationsAdjacent = [];
+  for (let i = 0; i < newGrid.length; i++) {
+    for (let j = i + 1; j < newGrid.length; j++) {
+      combinationsAdjacent.push([newGrid[i].id, newGrid[j].id]);
+    }
+  }
+
+  // for each combination, check is adjacent
+  return combinationsAdjacent.filter(
+    (combination) =>
+      isAdjacent(combination[0], combination[1], grid) &&
+      checkSumCore(combination, grid)
+  );
+};

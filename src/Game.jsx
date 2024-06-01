@@ -4,6 +4,7 @@ import ButtonBottom from "./Components/ButtonBottom";
 import HeaderTop from "./Components/HeaderTop";
 import {
   STATE,
+  calculateHints,
   checkSumCore,
   generateGrid,
   isAdjacent,
@@ -131,36 +132,17 @@ const Game = ({ columns, rows }) => {
     setScore((current) => current + thisScore);
   };
 
-  const calculateHints = () => {
-    // get all grid NEW
-    const newGrid = grid.filter((cell) => cell.state === STATE.NEW);
-
-    // create all combination of two couple cells from newGrid with no duplicates
-    const combinationsAdjacent = [];
-    for (let i = 0; i < newGrid.length; i++) {
-      for (let j = i + 1; j < newGrid.length; j++) {
-        combinationsAdjacent.push([newGrid[i].id, newGrid[j].id]);
-      }
-    }
-
-    // for each combination, check is adjacent
-    return combinationsAdjacent.filter(
-      (combination) =>
-        isAdjacent(combination[0], combination[1], grid) &&
-        checkSumCore(combination, grid)
-    );
-  };
-
   const useHint = () => {
     if (hintCount > 0) {
-      const combinations = calculateHints();
-      if (combinations.length === 0) return;
+      const combinations = calculateHints(grid);
+      if (combinations.length === 0) return false;
 
       setHintCount(hintCount - 1);
 
       // get random from hints array and set as selected bounging
       const randomIndex = Math.floor(Math.random() * combinations.length);
       setSelectedHint(combinations[randomIndex]);
+      return true;
     }
   };
 
@@ -189,6 +171,7 @@ const Game = ({ columns, rows }) => {
         score={score}
         phase={phase}
       />
+
       <ButtonBottom
         handleAddNumbers={handleAddNumbers}
         useHint={useHint}
