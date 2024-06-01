@@ -147,6 +147,7 @@ const Game = ({ columns, rows }) => {
 
   const handleSelect = (index) => {
     if (index === -1) return;
+    if (grid.find((num) => num.id === index).state !== STATE.NEW) return;
     if (selected.includes(index)) {
       setSelected(selected.filter((i) => i !== index));
     } else {
@@ -254,7 +255,7 @@ const Game = ({ columns, rows }) => {
       <div className="bg-white shadow-md rounded-lg p-6 w-full h-3/4 overflow-y-auto">
         <div className="justify-between flex mb-4">
           <p>Phase: {phase}</p>
-          <p>Sum: {score}</p>
+          <p>Score: {score}</p>
         </div>
         <div className="flex justify-center items-center h-screen pt-4 bg-white">
           <div
@@ -274,8 +275,11 @@ const Game = ({ columns, rows }) => {
                   : "bg-blue-300 hover:bg-blue-300"
                 : ""
             }
-            ${num.id !== -1 ? "hover:border-2 hover:bg-gray-50" : ""}
-            ${num?.state === STATE.Wiped ? "bg-gray-50 text-gray-200" : ""}
+            ${
+              num?.state !== STATE.Wiped
+                ? "hover:border-2 hover:bg-gray-50"
+                : "bg-gray-50 text-gray-200"
+            }
           `}
                 style={{
                   height: "auto",
