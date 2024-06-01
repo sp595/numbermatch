@@ -252,11 +252,12 @@ const Game = ({ columns, rows }) => {
 
   return (
     <div class="bg-gray-100 flex items-center justify-center min-h-screen">
+      <div class="fixed top-4 left-1/2 transform -translate-x-1/2 flex space-x-4 w-full justify-between flex">
+        <p className="p-4 font-bold text-xl">Phase: {phase}</p>
+        <p className="p-4 font-bold text-xl">Score: {score}</p>
+      </div>
+
       <div className="bg-white shadow-md rounded-lg p-6 w-full h-3/4 overflow-y-auto">
-        <div className="justify-between flex mb-4">
-          <p>Phase: {phase}</p>
-          <p>Score: {score}</p>
-        </div>
         <div className="flex justify-center items-center h-screen pt-4 bg-white">
           <div
             className={`grid border-2 border-gray-400`}
@@ -324,12 +325,12 @@ const Game = ({ columns, rows }) => {
           New
         </button>
         <button
-          class="w-12 h-12 bg-green-500 text-white rounded-full shadow-md flex items-center justify-center"
+          class="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center"
           onClick={handleAddNumbers}
         >
           +
         </button>
-        <button class="w-12 h-12 bg-red-500 text-white rounded-full shadow-md flex items-center justify-center">
+        <button class="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center">
           Hint!
         </button>
       </div>
