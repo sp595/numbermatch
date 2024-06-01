@@ -128,6 +128,7 @@ const Game = ({ columns, rows }) => {
   };
 
   const handleSelect = (index) => {
+    if (index === -1) return;
     if (selected.includes(index)) {
       setSelected(selected.filter((i) => i !== index));
     } else {
@@ -230,13 +231,14 @@ const Game = ({ columns, rows }) => {
             {grid.map((num, index) => (
               <div
                 key={index}
-                className={`flex justify-center items-center w-12 h-12 border hover:border-2 border-gray-300 hover:bg-gray-50 cursor-pointer select-none text-lg font-semibold ${
+                className={`flex justify-center items-center w-12 h-12 border border-gray-300 cursor-pointer select-none text-lg font-semibold ${
                   selected.includes(num?.id)
                     ? wrongSelection
                       ? "bg-red-300 hover:bg-red-300"
                       : "bg-yellow-300 hover:bg-yellow-300"
                     : ""
                 }
+                ${num.id != -1 ? "hover:border-2 hover:bg-gray-50" : ""}
                     ${
                       num?.state && num.state === STATE.Wiped
                         ? "bg-gray-50 text-gray-200"
