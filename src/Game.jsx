@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useDetectTouch from "./Hook/Detect";
-import {
-  LightBulbIcon,
-  PlusIcon,
-  ArrowPathIcon,
-  XCircleIcon,
-} from "@heroicons/react/24/solid";
-import { TrophyIcon } from "@heroicons/react/24/solid";
+import EndGame from "./Components/EndGame";
+import ButtonBottom from "./Components/ButtonBottom";
 
 const STATE = {
   NEW: "new",
@@ -314,69 +309,17 @@ const Game = ({ columns, rows }) => {
         </div>
       </div>
 
-      {(isVictory || isGameOver) && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-            <div className="flex flex-col items-center">
-              {isVictory && (
-                <>
-                  <h2 className="text-2xl font-bold mb-4 text-center">
-                    Victory!
-                  </h2>
-                  <TrophyIcon className="animate-bounce text-yellow-500 w-24 h-24 mb-4" />
-                  <p className="text-lg mb-2">
-                    Score: <span id="victory-score">{score}</span>
-                  </p>
-                  <p className="text-lg mb-4">
-                    Phases: <span id="victory-phase">{phase}</span>
-                  </p>
-                </>
-              )}
-              {isGameOver && (
-                <>
-                  <h2 className="text-2xl font-bold mb-4 text-center">
-                    Game Over!
-                  </h2>
-                  <XCircleIcon className="animate-bounce text-red-500 w-24 h-24 mb-4" />
-                </>
-              )}
-              <button
-                id="close-popup"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => window.location.reload()}
-              >
-                New Game!
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-8">
-        <button
-          className="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-blue-600"
-          onClick={() => window.location.reload()}
-        >
-          <ArrowPathIcon className="w-6 h-6" />
-        </button>
-        <button
-          className="relative w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-blue-600"
-          onClick={handleAddNumbers}
-        >
-          <PlusIcon className="w-6 h-6" />
-          <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
-            {5 - phase > 0 ? 5 - phase : 0}
-          </div>
-        </button>
-        <button className="relative w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-blue-600">
-          <LightBulbIcon className="w-6 h-6" />
-          {hintCount > 0 && (
-            <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">
-              {hintCount}
-            </div>
-          )}
-        </button>
-      </div>
+      <EndGame
+        isVictory={isVictory}
+        isGameOver={isGameOver}
+        score={score}
+        phase={phase}
+      />
+      <ButtonBottom
+        handleAddNumbers={handleAddNumbers}
+        hintCount={hintCount}
+        phase={phase}
+      />
     </div>
   );
 };
