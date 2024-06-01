@@ -3,11 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Game from "./Game";
+import { columns, rows } from "./Hook/Logic";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Game columns={9} rows={15} /> {/* Change the number of columns here */}
+    <Game columns={columns} rows={rows} />{/* Change the number of columns here */}
   </React.StrictMode>
 );
 
