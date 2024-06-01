@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import useDetectTouch from "./Hook/Detect";
 
 const STATE = {
   NEW: "new",
@@ -25,6 +26,7 @@ const generateGrid = (init, columns, rows) => {
 };
 
 const Game = ({ columns, rows }) => {
+  const isTouch = useDetectTouch();
   const [grid, setGrid] = useState(generateGrid(4, columns, rows));
   const [score, setScore] = useState(0);
   const [phase, setPhase] = useState(1);
@@ -251,8 +253,8 @@ const Game = ({ columns, rows }) => {
   // TODO: calculate hint
 
   return (
-    <div class="bg-gray-100 flex items-center justify-center min-h-screen">
-      <div class="fixed top-4 left-1/2 transform -translate-x-1/2 flex space-x-4 w-full justify-between flex">
+    <div className="bg-gray-100 flex items-center justify-center min-h-screen">
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 flex space-x-4 w-full justify-between flex">
         <p className="p-4 font-bold text-xl">Phase: {phase}</p>
         <p className="p-4 font-bold text-xl">Score: {score}</p>
       </div>
@@ -287,7 +289,8 @@ const Game = ({ columns, rows }) => {
                   minHeight: "40px",
                   maxHeight: "calc(40px / columns)",
                 }}
-                onClick={() => handleSelect(num?.id)}
+                onTouchStart={() => isTouch && handleSelect(num?.id)}
+                onClick={() => !isTouch && handleSelect(num?.id)}
               >
                 {num?.num ? num?.num : ""}
               </div>
@@ -297,18 +300,18 @@ const Game = ({ columns, rows }) => {
       </div>
 
       {isVictory && (
-        <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-            <h2 class="text-2xl font-bold mb-4 text-center">Victory!</h2>
-            <p class="text-lg mb-2">
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+            <h2 className="text-2xl font-bold mb-4 text-center">Victory!</h2>
+            <p className="text-lg mb-2">
               Score: <span id="victory-score">{score}</span>
             </p>
-            <p class="text-lg mb-4">
+            <p className="text-lg mb-4">
               Phases: <span id="victory-phase">{phase}</span>
             </p>
             <button
               id="close-popup"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-auto block"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-auto block"
               onClick={() => window.location.reload()}
             >
               Reset Game!
@@ -317,20 +320,20 @@ const Game = ({ columns, rows }) => {
         </div>
       )}
 
-      <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4">
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4">
         <button
-          class="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center"
+          className="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center"
           onClick={() => window.location.reload()}
         >
           New
         </button>
         <button
-          class="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center"
+          className="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center"
           onClick={handleAddNumbers}
         >
           +
         </button>
-        <button class="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center">
+        <button className="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center">
           Hint!
         </button>
       </div>
