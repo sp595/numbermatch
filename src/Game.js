@@ -26,6 +26,10 @@ const generateGrid = (init, columns, rows) => {
 
 const Game = ({ columns, rows }) => {
   const [grid, setGrid] = useState(generateGrid(4, columns, rows));
+  const [score, setScore] = useState(0);
+  const [phase, setPhase] = useState(1);
+  const [isVictory, setIsVictory] = useState(false);
+
   const [wrongSelection, setWrongSelection] = useState(false);
   const [selected, setSelected] = useState([]);
   const targetSum = 10;
@@ -43,6 +47,7 @@ const Game = ({ columns, rows }) => {
       (cell) =>
         Math.floor(cell.id / columns) === row1 && cell.state === STATE.NEW
     );
+
     // is the first or last cell
     if (row1Cells.length > 0) {
       if (row1Cells[0]?.id === id1) {
@@ -52,16 +57,29 @@ const Game = ({ columns, rows }) => {
             Math.floor(cell.id / columns) === row1 - 1 &&
             cell.state === STATE.NEW
         );
-        if (rowBefore.length > 0 && rowBefore[0]?.id === id2) return true;
-      } else if (row1Cells[row1Cells.length - 1]?.id === id1) {
+        if (row1 > row2) {
+          if (
+            rowBefore.length > 0 &&
+            rowBefore[rowBefore.length - 1]?.id === id2
+          )
+            return true;
+        } else {
+          if (rowBefore.length > 0 && rowBefore[0]?.id === id2) return true;
+        }
+      }
+      if (row1Cells[row1Cells.length - 1]?.id === id1) {
         // row after
         const rowAfter = grid.filter(
           (cell) =>
             Math.floor(cell.id / columns) === row1 + 1 &&
             cell.state === STATE.NEW
         );
-        if (rowAfter.length > 0 && rowAfter[rowAfter.length - 1]?.id === id2)
-          return true;
+        if (row1 > row2) {
+          if (rowAfter.length > 0 && rowAfter[rowAfter.length - 1]?.id === id2)
+            return true;
+        } else {
+          if (rowAfter.length > 0 && rowAfter[0]?.id === id2) return true;
+        }
       }
     }
 
@@ -212,17 +230,34 @@ const Game = ({ columns, rows }) => {
       ...grid.filter((cell) => cell.state === STATE.Empty),
     ];
     setGrid(newNewGrid);
+    setPhase((curr) => curr + 1);
+  };
+
+  const checkVictory = () => {
+    // Verifica se nessun elemento nella griglia ha lo stato NEW
+    const condition = !grid.some((cell) => cell.state === STATE.NEW);
+    setIsVictory(condition);
+    console.log(isVictory);
   };
 
   useEffect(() => {
     checkSum();
     checkEmptyRows();
+    checkVictory();
   }, [selected]);
+
+  // TODO: calulate score
+
+  // TODO: calculate hint
 
   return (
     <div class="bg-gray-100 flex items-center justify-center min-h-screen">
       <div class="bg-white shadow-md rounded-lg p-6 w-full h-3/4 overflow-y-auto">
         {/* max-w-md */}
+        <div className="justify-between flex">
+          <p>Fase: {phase}</p>
+          <p>Sum: {score}</p>
+        </div>
         <div className="flex justify-center items-center h-screen">
           <div
             className="grid gap-1"
@@ -253,9 +288,33 @@ const Game = ({ columns, rows }) => {
         </div>
       </div>
 
+      {isVictory && (
+        <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+            <h2 class="text-2xl font-bold mb-4 text-center">Victory!</h2>
+            <p class="text-lg mb-2">
+              Score: <span id="victory-score">{score}</span>
+            </p>
+            <p class="text-lg mb-4">
+              Phases: <span id="victory-phase">{phase}</span>
+            </p>
+            <button
+              id="close-popup"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-auto block"
+              onClick={() => window.location.reload()}
+            >
+              Reset Game!
+            </button>
+          </div>
+        </div>
+      )}
+
       <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4">
-        <button class="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center">
-          1
+        <button
+          class="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center"
+          onClick={() => window.location.reload()}
+        >
+          New
         </button>
         <button
           class="w-12 h-12 bg-green-500 text-white rounded-full shadow-md flex items-center justify-center"
@@ -264,7 +323,7 @@ const Game = ({ columns, rows }) => {
           +
         </button>
         <button class="w-12 h-12 bg-red-500 text-white rounded-full shadow-md flex items-center justify-center">
-          3
+          Hint!
         </button>
       </div>
     </div>
