@@ -237,7 +237,6 @@ const Game = ({ columns, rows }) => {
     // Verifica se nessun elemento nella griglia ha lo stato NEW
     const condition = !grid.some((cell) => cell.state === STATE.NEW);
     setIsVictory(condition);
-    console.log(isVictory);
   };
 
   useEffect(() => {
@@ -257,7 +256,7 @@ const Game = ({ columns, rows }) => {
           <p>Phase: {phase}</p>
           <p>Sum: {score}</p>
         </div>
-        <div className="flex justify-center items-center h-screen pt-4">
+        <div className="flex justify-center items-center h-screen pt-4 bg-white">
           <div
             className={`grid border-2 border-gray-400`}
             style={{
@@ -267,7 +266,7 @@ const Game = ({ columns, rows }) => {
             {grid.map((num, index) => (
               <div
                 key={index}
-                className={`flex justify-center w-full bg-white items-center border border-gray-300 cursor-pointer select-none text-lg font-semibold 
+                className={`flex justify-center w-full items-center border border-gray-300 cursor-pointer select-none text-lg font-semibold 
             ${
               selected.includes(num?.id)
                 ? wrongSelection
