@@ -252,33 +252,37 @@ const Game = ({ columns, rows }) => {
 
   return (
     <div class="bg-gray-100 flex items-center justify-center min-h-screen">
-      <div class="bg-white shadow-md rounded-lg p-6 w-full h-3/4 overflow-y-auto">
-        {/* max-w-md */}
-        <div className="justify-between flex">
-          <p>Fase: {phase}</p>
+      <div className="bg-white shadow-md rounded-lg p-6 w-full h-3/4 overflow-y-auto">
+        <div className="justify-between flex mb-4">
+          <p>Phase: {phase}</p>
           <p>Sum: {score}</p>
         </div>
         <div className="flex justify-center items-center h-screen">
           <div
-            className="grid gap-1"
-            style={{ gridTemplateColumns: `repeat(${columns}, 50px)` }}
+            className={`grid gap-1`}
+            style={{
+              gridTemplateColumns: `repeat(${columns}, minmax(15px, 50px))`,
+            }}
           >
             {grid.map((num, index) => (
               <div
                 key={index}
-                className={`flex justify-center items-center w-12 h-12 border border-gray-300 cursor-pointer select-none text-lg font-semibold ${
-                  selected.includes(num?.id)
-                    ? wrongSelection
-                      ? "bg-red-300 hover:bg-red-300"
-                      : "bg-yellow-300 hover:bg-yellow-300"
-                    : ""
-                }
-                ${num.id != -1 ? "hover:border-2 hover:bg-gray-50" : ""}
-                    ${
-                      num?.state && num.state === STATE.Wiped
-                        ? "bg-gray-50 text-gray-200"
-                        : ""
-                    }`}
+                className={`flex justify-center w-full items-center border border-gray-300 cursor-pointer select-none text-lg font-semibold 
+            ${
+              selected.includes(num?.id)
+                ? wrongSelection
+                  ? "bg-red-300 hover:bg-red-300"
+                  : "bg-yellow-300 hover:bg-yellow-300"
+                : ""
+            }
+            ${num.id !== -1 ? "hover:border-2 hover:bg-gray-50" : ""}
+            ${num?.state === STATE.Wiped ? "bg-gray-50 text-gray-200" : ""}
+          `}
+                style={{
+                  height: "auto",
+                  minHeight: "50px",
+                  maxHeight: "calc(50px / columns)",
+                }}
                 onClick={() => handleSelect(num?.id)}
               >
                 {num?.num ? num?.num : ""}
