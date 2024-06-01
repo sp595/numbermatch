@@ -52,13 +52,7 @@ const Game = ({ columns, rows }) => {
             Math.floor(cell.id / columns) === row1 - 1 &&
             cell.state === STATE.NEW
         );
-        if (rowBefore.length > 0)
-          if (
-            rowBefore[0]?.id === id2 ||
-            rowBefore[rowBefore.length - 1]?.id === id2
-          ) {
-            return true;
-          }
+        if (rowBefore.length > 0 && rowBefore[0]?.id === id2) return true;
       } else if (row1Cells[row1Cells.length - 1]?.id === id1) {
         // row after
         const rowAfter = grid.filter(
@@ -66,13 +60,8 @@ const Game = ({ columns, rows }) => {
             Math.floor(cell.id / columns) === row1 + 1 &&
             cell.state === STATE.NEW
         );
-        if (rowAfter.length > 0)
-          if (
-            rowAfter[0]?.id === id2 ||
-            rowAfter[rowAfter.length - 1]?.id === id2
-          ) {
-            return true;
-          }
+        if (rowAfter.length > 0 && rowAfter[rowAfter.length - 1]?.id === id2)
+          return true;
       }
     }
 
