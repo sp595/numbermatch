@@ -2,8 +2,10 @@ import { XCircleIcon, TrophyIcon } from "@heroicons/react/24/solid";
 
 const EndGame = ({ isVictory, isGameOver, score, phase }) =>
   (isVictory || isGameOver) && (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+      {/* Full screen overlay to prevent clicks and touches behind */}
+      <div className="fixed inset-0 bg-gray-800 bg-opacity-50 z-50"></div>
+      <div className="relative bg-white p-8 rounded-lg shadow-lg w-96 z-[60]">
         <div className="flex flex-col items-center">
           {isVictory && (
             <>

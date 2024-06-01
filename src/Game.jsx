@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useDetectTouch from "./Hook/Detect";
 import EndGame from "./Components/EndGame";
 import ButtonBottom from "./Components/ButtonBottom";
+import HeaderTop from "./Components/HeaderTop";
 
 const STATE = {
   NEW: "new",
@@ -264,10 +265,7 @@ const Game = ({ columns, rows }) => {
 
   return (
     <div className="bg-gray-100 flex items-center justify-center min-h-screen">
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 flex space-x-4 w-full justify-between flex">
-        <p className="p-4 font-bold text-xl">Phase: {phase}</p>
-        <p className="p-4 font-bold text-xl">Score: {score}</p>
-      </div>
+      <HeaderTop phase={phase} score={score} />
 
       <div className="bg-white shadow-md rounded-lg p-6 w-full h-3/4 overflow-y-auto">
         <div className="flex justify-center items-center h-screen pt-4 bg-white">
@@ -299,7 +297,7 @@ const Game = ({ columns, rows }) => {
                   minHeight: "40px",
                   maxHeight: "calc(40px / columns)",
                 }}
-                onTouchStart={() => isTouch && handleSelect(num?.id)}
+                onTouch={() => isTouch && handleSelect(num?.id)}
                 onClick={() => !isTouch && handleSelect(num?.id)}
               >
                 {num?.num ? num?.num : ""}

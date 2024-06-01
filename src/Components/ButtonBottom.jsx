@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/24/solid";
 
 const ButtonBottom = ({ handleAddNumbers, hintCount, phase }) => (
-  <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-8">
+  <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-8 z-40">
     <button
       className="w-12 h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-blue-600"
       onClick={() => window.location.reload()}
