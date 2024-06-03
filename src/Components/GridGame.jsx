@@ -21,45 +21,44 @@ const GridGame = ({
             gridTemplateColumns: `repeat(${columns}, minmax(15px, 40px))`,
           }}
         >
-          {grid.map((num, index) => (
-            <div
-              key={index}
-              className={`flex justify-center w-full items-center border border-gray-300 cursor-pointer select-none text-2xl font-semibold 
+          {grid.map((num, index) => {
+            const wrongClasses = wrongSelection
+              ? "bg-red-300 hover:bg-red-300"
+              : "bg-blue-300 hover:bg-blue-300";
+
+            return (
+              <div
+                key={index}
+                className={`flex justify-center w-full items-center border border-gray-300 cursor-pointer select-none text-2xl font-semibold text-black
                 ${
                   !selected.includes(num?.id) && num?.state === STATE.NEW
                     ? isTouch
                       ? "hover:border-2 hover:bg-blue-300"
                       : "hover:border-2 hover:bg-gray-50"
-                    : "text-gray-200"
-                }
-                ${
-                  selected.includes(num?.id)
-                    ? wrongSelection
-                      ? "bg-red-300 hover:bg-red-300 text-black"
-                      : "bg-blue-300 hover:bg-blue-300 text-black"
                     : ""
                 }
+                ${num.state === STATE.Wiped ? "text-gray-200" : ""}
+                ${selected.includes(num?.id) ? wrongClasses : ""}
                 ${
                   selectedHint.includes(num?.id)
                     ? selected.includes(num?.id)
-                      ? wrongSelection
-                        ? "bg-red-300 hover:bg-red-300"
-                        : "bg-blue-300 hover:bg-blue-300"
+                      ? wrongClasses
                       : "animate-pulse bg-blue-200 hover:bg-blue-200"
                     : ""
                 }
               `}
-              style={{
-                height: "auto",
-                minHeight: "40px",
-                maxHeight: "calc(40px / columns)",
-              }}
-              onTouchStart={() => isTouch && handleSelect(num?.id)}
-              onClick={() => !isTouch && handleSelect(num?.id)}
-            >
-              {num?.num ? num?.num : ""}
-            </div>
-          ))}
+                style={{
+                  height: "auto",
+                  minHeight: "40px",
+                  maxHeight: "calc(40px / columns)",
+                }}
+                onTouchStart={() => isTouch && handleSelect(num?.id)}
+                onClick={() => !isTouch && handleSelect(num?.id)}
+              >
+                {num?.num ? num?.num : ""}
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="w-full h-24" />
