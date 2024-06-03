@@ -8,7 +8,6 @@ import {
   checkSumCore,
   generateGrid,
   isAdjacent,
-  targetSum,
 } from "./Hook/Logic";
 import GridGame from "./Components/GridGame";
 
@@ -58,15 +57,13 @@ const Game = ({ columns, rows }) => {
       setGrid(newGrid);
       // calculate score
       calculateScore(grid, selected);
-      setWrongSelection(false);
-      setSelected([]);
     } else {
       setWrongSelection(true);
-      setTimeout(() => {
-        setWrongSelection(false);
-        setSelected([]);
-      }, 500);
     }
+    setTimeout(() => {
+      setWrongSelection(false);
+      setSelected([]);
+    }, 400);
   };
 
   const checkEmptyRows = () => {
@@ -115,7 +112,7 @@ const Game = ({ columns, rows }) => {
   };
 
   const checkGameOver = () => {
-    setIsGameOver(phase == 5);
+    setIsGameOver(phase === 5);
   };
 
   const calculateScore = (grid, selected) => {

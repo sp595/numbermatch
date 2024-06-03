@@ -13,6 +13,7 @@ const GridGame = ({
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6 w-full h-3/4 overflow-y-auto">
+      <div className="w-full h-40" />
       <div className="flex justify-center items-center h-screen pt-4 bg-white">
         <div
           className={`grid border-2 border-gray-400`}
@@ -23,31 +24,31 @@ const GridGame = ({
           {grid.map((num, index) => (
             <div
               key={index}
-              className={`flex justify-center w-full items-center border border-gray-300 cursor-pointer select-none text-lg font-semibold 
-    ${
-      selected.includes(num?.id)
-        ? wrongSelection
-          ? "bg-red-300 hover:bg-red-300"
-          : "bg-blue-300 hover:bg-blue-300"
-        : ""
-    }
-    ${
-      selectedHint.includes(num?.id)
-        ? selected.includes(num?.id)
-          ? wrongSelection
-            ? "bg-red-300 hover:bg-red-300"
-            : "bg-blue-300 hover:bg-blue-300"
-          : "animate-pulse bg-blue-200 hover:bg-blue-200"
-        : ""
-    }
-    ${
-      num?.state !== STATE.Wiped
-        ? isTouch
-          ? "hover:border-2 hover:bg-blue-300"
-          : "hover:border-2 hover:bg-gray-50"
-        : "bg-gray-50 text-gray-200"
-    }
-  `}
+              className={`flex justify-center w-full items-center border border-gray-300 cursor-pointer select-none text-2xl font-semibold 
+                ${
+                  !selected.includes(num?.id) && num?.state === STATE.NEW
+                    ? isTouch
+                      ? "hover:border-2 hover:bg-blue-300"
+                      : "hover:border-2 hover:bg-gray-50"
+                    : "text-gray-200"
+                }
+                ${
+                  selected.includes(num?.id)
+                    ? wrongSelection
+                      ? "bg-red-300 hover:bg-red-300 text-black"
+                      : "bg-blue-300 hover:bg-blue-300 text-black"
+                    : ""
+                }
+                ${
+                  selectedHint.includes(num?.id)
+                    ? selected.includes(num?.id)
+                      ? wrongSelection
+                        ? "bg-red-300 hover:bg-red-300"
+                        : "bg-blue-300 hover:bg-blue-300"
+                      : "animate-pulse bg-blue-200 hover:bg-blue-200"
+                    : ""
+                }
+              `}
               style={{
                 height: "auto",
                 minHeight: "40px",
@@ -61,6 +62,7 @@ const GridGame = ({
           ))}
         </div>
       </div>
+      <div className="w-full h-24" />
     </div>
   );
 };
