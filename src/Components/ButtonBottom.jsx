@@ -21,13 +21,13 @@ const ButtonBottom = ({ handleAddNumbers, useHint, hintCount, phase }) => {
     <div className="fixed bottom-0 bg-gradient-to-t from-white via-70% via-white w-full h-32 z-40">
       <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-14 z-40 p-4">
         <button
-          className="w-14 h-14 bg-gray-200 text-blue-600 text-white rounded-full shadow-md flex items-center justify-center hover:bg-gray-300"
+          className="w-14 h-14 bg-gray-100 text-blue-600 rounded-full shadow-md flex items-center justify-center hover:bg-gray-300"
           onClick={() => window.location.reload()}
         >
           <ArrowPathIcon className="w-8 h-8" />
         </button>
         <button
-          className={`relative w-14 h-14 bg-gray-200 text-blue-600 text-white rounded-full shadow-md flex items-center justify-center hover:bg-gray-300 ${
+          className={`relative w-14 h-14 bg-gray-100 text-blue-600 rounded-full shadow-md flex items-center justify-center hover:bg-gray-300 ${
             !isHintAvailable && "animate-bounce"
           }`}
           onClick={useEffectAddNumbers}
@@ -38,7 +38,7 @@ const ButtonBottom = ({ handleAddNumbers, useHint, hintCount, phase }) => {
           </div>
         </button>
         <button
-          className="relative w-14 h-14 bg-gray-200 text-blue-600 text-white rounded-full shadow-md flex items-center justify-center hover:bg-gray-300"
+          className="relative w-14 h-14 bg-gray-100 text-blue-600 rounded-full shadow-md flex items-center justify-center hover:bg-gray-300"
           onClick={useEffectHint}
         >
           <LightBulbIcon className="w-6 h-6" />
