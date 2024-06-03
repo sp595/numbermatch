@@ -151,7 +151,7 @@ const Game = ({ columns, rows }) => {
 
   return (
     <div className="bg-gray-100 flex items-center justify-center min-h-screen touch-none">
-      <HeaderTop phase={phase} score={score} />
+      <HeaderTop phase={phase} score={score} record={score} />
 
       <GridGame
         grid={grid}
