@@ -8,7 +8,8 @@ import { columns, rows } from "./Hook/Logic";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Game columns={columns} rows={rows} />{/* Change the number of columns here */}
+    <Game columns={columns} rows={rows} />
+    {/* Change the number of columns here */}
   </React.StrictMode>
 );
 
