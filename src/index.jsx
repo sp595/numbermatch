@@ -4,12 +4,15 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Game from "./Game";
 import { columns, rows } from "./Hook/Logic";
+import store from "./app/store";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Game columns={columns} rows={rows} />
-    {/* Change the number of columns here */}
+    <Provider store={store}>
+      <Game columns={columns} rows={rows} />
+    </Provider>
   </React.StrictMode>
 );
 
